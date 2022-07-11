@@ -1,7 +1,10 @@
 {
   "expo": {
-    "name": "spletna-trgovina",
-    "slug": "spletna-trgovina",
+    "owner":"blazpelko",
+    "name": "Enostavna spletna trgovina",
+    "slug": "enostavna-spletna-trgovina",
+    "description":"Spoznavanje react-nativa",
+    "privacy":"public",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",

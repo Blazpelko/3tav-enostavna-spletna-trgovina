@@ -9,7 +9,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 declare global {
   namespace ReactNavigation {
-    interface RootParamList extends RootStackParamList {}
+    interface RootParamList extends RootStackParamList { }
   }
 }
 
@@ -17,6 +17,7 @@ export type RootStackParamList = {
   Root: NavigatorScreenParams<RootTabParamList> | undefined;
   Modal: undefined;
   NotFound: undefined;
+  FormScreen: undefined;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> = NativeStackScreenProps<
@@ -25,11 +26,43 @@ export type RootStackScreenProps<Screen extends keyof RootStackParamList> = Nati
 >;
 
 export type RootTabParamList = {
-  TabOne: undefined;
-  TabTwo: undefined;
+  Store: undefined;
+  Basket: undefined;
 };
 
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> = CompositeScreenProps<
   BottomTabScreenProps<RootTabParamList, Screen>,
   NativeStackScreenProps<RootStackParamList>
 >;
+
+export interface Izdelek {
+  id: string,
+  value: string,
+  cena: number
+}
+
+export interface IzdelekKosarica {
+  product: Izdelek,
+  st: number
+}
+
+export interface Elements {
+  selected: Array<IzdelekKosarica>,
+  addElement: (e: Izdelek) => void,
+  removeElement: (e: Izdelek) => void,
+  // clean: () => void,
+}
+
+export interface Form {
+  cena: number,
+}
+
+export interface FormSumbit {
+  ime: string,
+  priimek: string,
+  email: string,
+  naslov: string,
+  posta: string,
+  postnaSt: string,
+  handleChange: (target: string, value: string) => void,
+}
