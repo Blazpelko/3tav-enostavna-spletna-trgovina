@@ -1,11 +1,11 @@
 import useStore from '../storeElement';
-import { Center, Text, VStack, Box, HStack, Divider, ScrollView } from "native-base";
+import { Center, Text, VStack, Box, HStack, Divider, ScrollView, Button ,Select,CheckIcon} from "native-base";
 import FormNarocilo from "../components/FormNarocilo";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useState } from 'react';
+import create from 'zustand';
 
 function BasketOverview() {
-  const { selected } = useStore();
+  const { selected,sortBy } = useStore();
 
   function cena() {
     let sum = 0;
@@ -13,16 +13,6 @@ function BasketOverview() {
       sum += i.product.cena * i.st;
     });
     return sum;
-  }
-
-  const getData = async () => {
-    try {
-      const jsonValue = await AsyncStorage.getItem('@testStore');
-      // console.log(JSON.parse(jsonValue));
-      return jsonValue != null ? await JSON.parse(jsonValue) : null;
-    } catch (e) {
-      console.log("Error reading date from global storage.", e);
-    }
   }
 
   return (
@@ -33,7 +23,7 @@ function BasketOverview() {
         <Box w="100%" bg="gray.200" p="3" rounded="md">
           <VStack>
             <HStack justifyContent="space-between">
-              <Text onPress={() => {console.log("sort todo")}} fontSize="lg">Ime izdelka</Text>
+              <Text onPress={() => { console.log("sort todo") }} fontSize="lg">Ime izdelka</Text>
               <Text fontSize="lg">Cena</Text>
               <Text fontSize="lg">Količina</Text>
             </HStack>
@@ -46,9 +36,16 @@ function BasketOverview() {
               </HStack>
             )}
             <Divider my="1" bg="muted.800" />
-            <Box alignItems="flex-end">
+            <HStack  justifyContent="space-between">
+              <Select shadow={2} w="150px" accessibilityLabel="Choose Service" placeholder="Razvrsti po:"
+                bg='coolGray.100'
+                onValueChange={val => sortBy(val)}>  
+                <Select.Item shadow={2} label="Po imenu" value="ime" />
+                <Select.Item shadow={2} label="Po ceni" value="cena" />
+                <Select.Item shadow={2} label="Po skupni ceni" value="cenaSkupna" />
+              </Select>
               <Text alignItems="flex-end" fontSize="lg">Skupaj {cena()}$</Text>
-            </Box>
+            </HStack>
           </VStack>
         </Box>
         <FormNarocilo />
@@ -57,7 +54,23 @@ function BasketOverview() {
 }
 
 export default function Basket() {
+  // const getData = async () => {
+  //   try {
+  //     const jsonValue = await AsyncStorage.getItem('@testStore');
+  //     console.log( await JSON.parse(jsonValue));
+  //     return jsonValue != null ? await JSON.parse(jsonValue) : null;
+  //   } catch (e) {
+  //     console.log("Error reading date from global storage.", e);
+  //   }
+  // }
+  // const data = getData();
   return (
-    <BasketOverview />
+    <>
+      <BasketOverview />
+      {/* <Box>
+        <Button onPress={() => console.log("data")}><Text>test</Text></Button>
+        {typeof data._w !=='object' && }
+      </Box> */}
+    </>
   );
 }

@@ -1,6 +1,7 @@
 import create from 'zustand';
 import produce from "immer";
 import { Elements, Izdelek, IzdelekKosarica } from './types';
+import _ from 'lodash';
 
 const useStore = create<Elements>((set) => ({
     selected: [],
@@ -32,7 +33,25 @@ const useStore = create<Elements>((set) => ({
             }
         })
     ),
-    clean:  () => set((state) => ({selected:[]})),
+    clean: () => set((state) => ({ selected: [] })),
+    sortBy: (e: string) => set(
+        produce((draft) => {
+            switch (e) {
+                case "ime":
+                    draft.selected=_.sortBy(draft.selected, [function (o) { return o.product.id; }]);
+                    break;
+                case "cena":
+                    draft.selected=_.sortBy(draft.selected, [function (o) { return o.product.cena; }]);
+                    break;
+                case "cenaSkupna":
+                    draft.selected=_.sortBy(draft.selected, [function (o) { return o.product.cena * o.st }]).reverse();
+                    break;
+                default:
+                    draft.selected
+                    break;
+            }
+        })
+    ),
 }))
 
 export default useStore;

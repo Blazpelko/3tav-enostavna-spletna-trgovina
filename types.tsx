@@ -51,6 +51,7 @@ export interface Elements {
   addElement: (e: Izdelek) => void,
   removeElement: (e: Izdelek) => void,
   clean: () => void,
+  sortBy:(order:string)=>void,
 }
 
 export interface Form {

@@ -91,7 +91,7 @@ export default function Basket() {
                                     <Input type="text" placeholder="številka pošte" bg="coolGray.300" value={postnaSt} size="xl" variant="outline" onChangeText={(value) => { handleChange("postnaSt", value) }} />
                                 </VStack>
                             </HStack>
-                            <Button mt="3" onPress={handleSubmit}>Submit</Button>
+                            <Button disabled={ime.length === 0 || priimek.length === 0 || email.length === 0 || naslov.length === 0 || posta.length === 0 || postnaSt.length === 0} mt="3" onPress={handleSubmit}>Submit</Button>
                             {/* disabled={ime.length === 0 || priimek.length === 0 || email.length === 0 || naslov.length === 0 || posta.length === 0 || postnaSt.length === 0} */}
                         </VStack>
                     </FormControl>
