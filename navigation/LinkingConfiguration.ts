@@ -15,16 +15,6 @@ const linking: LinkingOptions<RootStackParamList> = {
     screens: {
       Root: {
         screens: {
-          // Store: {
-          //   screens: {
-          //     Store: 'store',
-          //   },
-          // },
-          // Basket: {
-          //   screens: {
-          //     Basket: 'basket',
-          //   },
-          // },
           Store: 'store',
           Basket: 'basket'
         },
