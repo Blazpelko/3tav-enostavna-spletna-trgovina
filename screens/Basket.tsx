@@ -1,6 +1,8 @@
 import useStore from '../storeElement';
-import { Center, Text, VStack, Box, HStack, Divider,ScrollView } from "native-base";
+import { Center, Text, VStack, Box, HStack, Divider, ScrollView } from "native-base";
 import FormNarocilo from "../components/FormNarocilo";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useState } from 'react';
 
 function BasketOverview() {
   const { selected } = useStore();
@@ -13,15 +15,25 @@ function BasketOverview() {
     return sum;
   }
 
+  const getData = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem('@testStore');
+      // console.log(JSON.parse(jsonValue));
+      return jsonValue != null ? await JSON.parse(jsonValue) : null;
+    } catch (e) {
+      console.log("Error reading date from global storage.", e);
+    }
+  }
+
   return (
     // <Center p="2">
     (selected.length === 0) ? <Center p="2"><Text fontSize="md" >V košarici ni elementov</Text></Center> :
 
       <Box p="2">
-        <Box w="100%" bg="teal.300" p="3" rounded="md">
+        <Box w="100%" bg="gray.200" p="3" rounded="md">
           <VStack>
             <HStack justifyContent="space-between">
-              <Text onPress={() => console.log("pressed")} fontSize="lg">Ime izdelka</Text>
+              <Text onPress={() => {console.log("sort todo")}} fontSize="lg">Ime izdelka</Text>
               <Text fontSize="lg">Cena</Text>
               <Text fontSize="lg">Količina</Text>
             </HStack>
@@ -39,7 +51,7 @@ function BasketOverview() {
             </Box>
           </VStack>
         </Box>
-          <FormNarocilo />
+        <FormNarocilo />
       </Box>
   );
 }

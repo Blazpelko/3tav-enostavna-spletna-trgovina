@@ -1,6 +1,6 @@
-import { RootTabScreenProps,Izdelek,IzdelekKosarica } from '../types';
-import React from "react";
-import { VStack, Fab, Center, Box, ScrollView, HStack, Text, Button, IconButton, Icon, Badge } from "native-base";
+import { RootTabScreenProps, Izdelek, IzdelekKosarica } from '../types';
+import React, { useEffect } from "react";
+import { VStack, Fab, Center, Box, ScrollView, HStack, Text, Button, IconButton, Icon, Badge, Pressable } from "native-base";
 import { Feather, Entypo } from "@expo/vector-icons";
 import useStore from '../storeElement';
 
@@ -25,6 +25,7 @@ const izdelki = [
   { id: "Izdelek 18", value: "Opis izdelka 18", cena: 3 }
 ];
 
+
 const Elementi = () => {
   const addElement = useStore((state) => state.addElement)
   const removeElement = useStore((state) => state.removeElement)
@@ -36,27 +37,60 @@ const Elementi = () => {
 
   function decrement(e: Izdelek) {
     removeElement(e);
-    console.log(content);
   }
 
-  return (    
+  function badge(ele: any) {
+    let temp = content.find((el: IzdelekKosarica) => el.product.id === ele.id);
+    if (typeof temp !== 'undefined') {
+      return <Badge mt={-2} colorScheme="danger" rounded="full" mb={-4} zIndex={1} variant="solid" alignSelf="flex-end" _text={{ fontSize: 12 }}>{temp.st}</Badge>
+    }
+  }
+
+  return (
     <Center w="100%" mt="2">
       <VStack w="100%" space={3} alignItems="center">
-        {izdelki.map(ele =>
-          <Box key={ele.id} w="100%">            
-            {typeof (content.find((el: IzdelekKosarica) => el.product.id === ele.id)) !== 'undefined' && <Badge mt={-2} colorScheme="danger" rounded="full" mb={-4} zIndex={1} variant="solid" alignSelf="flex-end" _text={{ fontSize: 12 }}>
-              {content.find((el: IzdelekKosarica) => el.product.id === ele.id).st}
-            </Badge>
-            }
-            <Box w="100%" bg="teal.300" p="5" rounded="xl">
-              <HStack justifyContent="space-between">
-                <VStack>
-                  <Text bold>{ele.id}</Text>
-                  <Text>{ele.value}</Text>
-                </VStack>
-                <HStack >
-                  <IconButton icon={<Icon as={Feather} name="plus" size="md" color="black" />} onPress={() => increment(ele)} />
-                  <IconButton icon={<Icon as={Entypo} name="minus" size="md" color="black" />} onPress={() => decrement(ele)} />
+
+        {izdelki.map((ele, i) =>
+          <Box key={ele.id} w="100%" shadow="3">
+            {badge(ele)}
+            <Box w="100%" bg="gray.200" p="2" rounded="xl" >
+              <HStack>
+                <Box w="90px" h="90px" bg="coolGray.500" rounded="xl" alignItems="center" justifyContent="center" shadow="3">
+                  <Icon as={Entypo} name="image" size="6xl" color="black" />
+                </Box>
+                <HStack justifyContent="space-between" flex={1}>
+                  <VStack ml="2">
+                    <Text bold>{ele.id}</Text>
+                    <Text>{ele.value}</Text>
+                    <Text>${ele.cena}</Text>
+                  </VStack>
+                  <HStack>
+                    {/* <IconButton icon={<Icon as={Feather} name="plus" size="xl" color="black" />} onPress={() => increment(ele)} />
+                    <IconButton icon={<Icon as={Entypo} name="minus" size="xl" color="black" />} onPress={() => decrement(ele)} /> */}
+                    <Pressable justifyContent="center" mb="3" onPress={() => increment(ele)}>
+                      {({
+                        isPressed
+                      }) => {
+                        return <Box maxW="100" borderWidth="1" borderColor="coolGray.300" shadow="2" bg={isPressed ? 'coolGray.200' : 'coolGray.100'} p="3" rounded="8" style={{
+                          transform: [{ scale: isPressed ? 0.95 : 1 }]
+                        }} >
+                          <Icon as={Feather} name="plus" size="md" color="black" />
+                        </Box>;
+                      }}
+                    </Pressable>
+                    <Pressable ml="2" mt="3" justifyContent="center" onPress={() => decrement(ele)}>
+                      {({
+                        isPressed
+                      }) => {
+                        return <Box maxW="100" borderWidth="1" borderColor="coolGray.300" shadow="2" bg={isPressed ? 'coolGray.200' : 'coolGray.100'} p="3" rounded="8" style={{
+                          transform: [{ scale: isPressed ? 0.96 : 1 }]
+                        }}>
+                         <Icon as={Entypo} name="minus" size="md" color="black" />
+                        </Box>;
+                      }}
+                    </Pressable>
+
+                  </HStack>
                 </HStack>
               </HStack>
             </Box>

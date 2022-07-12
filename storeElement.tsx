@@ -32,6 +32,7 @@ const useStore = create<Elements>((set) => ({
             }
         })
     ),
+    clean:  () => set((state) => ({selected:[]})),
 }))
 
 export default useStore;

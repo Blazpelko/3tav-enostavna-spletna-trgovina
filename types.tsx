@@ -50,7 +50,7 @@ export interface Elements {
   selected: Array<IzdelekKosarica>,
   addElement: (e: Izdelek) => void,
   removeElement: (e: Izdelek) => void,
-  // clean: () => void,
+  clean: () => void,
 }
 
 export interface Form {
@@ -65,4 +65,5 @@ export interface FormSumbit {
   posta: string,
   postnaSt: string,
   handleChange: (target: string, value: string) => void,
+  clean: () => void,
 }
